@@ -152,23 +152,31 @@ export default function Home() {
                                 marginLeft: "8px",
                             }}
                         >
-                            <Avatar shape="square" />
+                            <Avatar
+                                shape="square"
+                                style={{
+                                    height: 50,
+                                    width: 50,
+                                }}
+                            />
                             <div style={{ marginLeft: "4px" }}>
                                 {" "}
                                 <label
+                                    className="font-bold"
                                     style={{
                                         display: "block",
                                         margin: 0,
-                                        lineHeight: 1,
+                                        lineHeight: 1.5,
                                     }}
                                 >
                                     Lorem Ipsum
                                 </label>
                                 <label
+                                    className="font-light"
                                     style={{
                                         display: "block",
                                         margin: 0,
-                                        lineHeight: 1,
+                                        lineHeight: 1.5,
                                     }}
                                 >
                                     Dolor
