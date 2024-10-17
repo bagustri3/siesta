@@ -1,101 +1,195 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+import {
+    LineChartOutlined,
+    LogoutOutlined,
+    MessageOutlined,
+    PieChartOutlined,
+    ProductOutlined,
+    SettingOutlined,
+    TableOutlined,
+} from "@ant-design/icons";
+import {
+    Layout,
+    Menu,
+    theme,
+    Input,
+    Select,
+    Popover,
+    Avatar,
+    List,
+    Typography,
+    Button,
+} from "antd";
+
+const { Header, Content, Sider } = Layout;
+const { Search } = Input;
+
+const items = [
+    {
+        key: "dashboard",
+        icon: <PieChartOutlined />,
+        label: "Home",
+    },
+    {
+        key: "lb",
+        icon: <TableOutlined />,
+        label: "Leaderboard",
+    },
+    {
+        key: "products",
+        icon: <ProductOutlined />,
+        label: "Products",
+    },
+    {
+        key: "sales-report",
+        icon: <LineChartOutlined />,
+        label: "Sales Report",
+    },
+    {
+        key: "messages",
+        icon: <MessageOutlined />,
+        label: "Messages",
+    },
+    {
+        key: "settings",
+        icon: <SettingOutlined />,
+        label: "Settings",
+    },
+    {
+        key: "sign-out",
+        icon: <LogoutOutlined style={{ color: "red" }} />,
+        label: <label style={{ color: "red" }}>Sign Out</label>,
+    },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    const initialState = {
+        data: [],
+        error: null,
+        loading: false,
+    };
+
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(initialState);
+
+    const popOverContent = (
+        <div className="flex flex-col space-y-2">
+            <Button>Profile</Button>
+            <Button>Teams</Button>
+            <Button>...etc</Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
+    return (
+        <Layout style={{ minHeight: "100vh" }}>
+            <Sider
+                breakpoint="lg"
+                collapsedWidth="0"
+                onBreakpoint={(broken) => {
+                    console.log(broken);
+                }}
+                theme="light"
+                onCollapse={(collapsed, type) => {
+                    console.log(collapsed, type);
+                }}
+            >
+                <div className="logo-vertical" />
+                <Menu
+                    theme="light"
+                    mode="inline"
+                    defaultSelectedKeys={["dashboard"]}
+                    items={items}
+                />
+            </Sider>
+            <Layout>
+                <Header
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        backgroundColor: "white",
+                        justifyContent: "space-evenly",
+                        padding: "0 16px",
+                    }}
+                >
+                    <h1 className="text-center font-extrabold text-xl">
+                        Dashboard
+                    </h1>
+                    <Search
+                        placeholder="🔍 Search here..."
+                        loading={loading}
+                        style={{
+                            width: 300,
+                            margin: "0 16px",
+                        }}
+                    />
+                    <Select
+                        defaultValue="en"
+                        style={{
+                            width: 100,
+                        }}
+                        options={[
+                            {
+                                label: `English (🇺🇸)`,
+                                value: "en",
+                            },
+                            {
+                                label: "Indonesia",
+                                value: "id",
+                            },
+                        ]}
+                    />
+                    <div className="horizontal-logo" />
+                    <Popover trigger={"hover"} content={popOverContent}>
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginLeft: "8px",
+                            }}
+                        >
+                            <Avatar shape="square" />
+                            <div style={{ marginLeft: "4px" }}>
+                                {" "}
+                                <label
+                                    style={{
+                                        display: "block",
+                                        margin: 0,
+                                        lineHeight: 1,
+                                    }}
+                                >
+                                    Lorem Ipsum
+                                </label>
+                                <label
+                                    style={{
+                                        display: "block",
+                                        margin: 0,
+                                        lineHeight: 1,
+                                    }}
+                                >
+                                    Dolor
+                                </label>
+                            </div>
+                        </div>
+                    </Popover>
+                </Header>
+                <Content style={{ margin: "24px 16px 0" }}>
+                    <div
+                        style={{
+                            padding: 24,
+                            minHeight: 360,
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                    >
+                        content
+                    </div>
+                </Content>
+            </Layout>
+        </Layout>
+    );
 }
