@@ -130,7 +130,7 @@ export default function Home() {
                     <Select
                         defaultValue="en"
                         style={{
-                            width: 100,
+                            width: 120,
                         }}
                         options={[
                             {
